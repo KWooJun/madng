@@ -1,0 +1,19 @@
+spring:
+  application:
+    name : madang
+
+  datasource:
+    url : jdbc:mariadb://localhost/madang_spring
+    username : root
+    password : green502
+
+mybatis:
+  mapper-locations : mappers/**/*.xml
+
+springdoc :
+  swagger-ui:
+    default-model-expand-depth: 10
+    display-request-duration: true
+    operations-sorter: method
+    path: /swagger
+
