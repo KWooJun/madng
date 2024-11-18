@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.green.madang.manager.book.BookMapper">
+
+    <insert id="insBook">
+        INSERT INTO book
+           SET bookname = #{bookName}
+             , publisher = #{publisher}
+             , price = #{price}
+    </insert>
+
+    <select id="selBookList">
+        SELECT bookid AS bookId
+             , bookname AS bookName
+             , publisher
+             , price
+         FROM book
+        <if test = "searchText != null and searchText != '' ">
+            WHERE bookname LIKE '%${searchText}%'
+        </if>
+         ORDER BY bookname, bookid
+         LIMIT #{startIdx}, #{size}
+    </select>
+    <!-- LIMIT ${(page - 1) * page}, #{size} 또는
+         LIMIT #{startIdx}, #{size}  이것도 가능하다
+        $ : 테이블 명이 쿼리문에서 바꿔야 할떄
+            강제로 값을 넣을 때 -->
+
+    <update id="updateBook">
+        UPDATE book
+        <set>
+            <if test = "bookName != null and bookName != '' ">
+                bookname = #{bookName}
+            </if>
+            <if test = "publisher != null and publisher != '' ">
+                publisher = #{publisher}
+            </if>
+            <if test = "price != null and price >= 0 ">
+                price = #{price}
+            </if>
+        </set>
+         WHERE bookid = #{bookId}
+    </update>
+
+    <delete id="delBook">
+        DELETE FROM book
+        WHERE bookid = #{bookId}
+    </delete>
+</mapper>
